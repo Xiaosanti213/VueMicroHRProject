@@ -1,5 +1,10 @@
-菜单项数据加载成功之后，在前端有几个可以存放的地方：
+**项目来源《SpringBoot+Vue全栈开发》**
+由前端Vue开发
 
-1. sessionStorage
-2. localStorage
-**3. vuex**
+
+```
+git clone git@github.com:Xiaosanti213/VueMicroHRProject.git
+cd VueMicroHRProject
+npm install
+npm run serve
+```
