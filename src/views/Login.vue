@@ -18,12 +18,10 @@
                 <el-input size="normal" type="password" v-model="loginForm.password" auto-complete="off"
                           placeholder="请输入密码"></el-input>
             </el-form-item>
-            <el-form-item prop="code">
-                <el-input size="normal" type="text" v-model="loginForm.code" auto-complete="off"
-                          placeholder="点击图片更换验证码" @keydown.enter.native="submitLogin" style="width: 250px"></el-input>
-                <img :src="vcUrl" @click="updateVerifyCode" alt="" style="cursor: pointer">
-            </el-form-item>
-            <el-checkbox size="normal" class="loginRemember" v-model="checked"></el-checkbox>
+            <div style="display: flex;justify-content: flex-end; align-items: baseline;">
+                <el-checkbox size="normal" class="loginRemember" v-model="checked"></el-checkbox>
+                <label>记住密码</label>
+            </div>
             <el-button size="normal" type="primary" style="width: 100%;" @click="submitLogin">登录</el-button>
         </el-form>
     </div>
@@ -58,12 +56,14 @@
                 this.$refs.loginForm.validate((valid) => {
                     if (valid) {
                         this.loading = true;
+                        // 验证输入是否正确，若正确，向后端发起登录请求
                         this.postRequest('/doLogin', this.loginForm).then(resp => {
                             this.loading = false;
                             if (resp) { // we dont know how to load the verifyCode so to work around, this is originally resp
                                 this.$store.commit('INIT_CURRENTHR', resp.obj);
                                 window.sessionStorage.setItem("user", JSON.stringify(resp.obj));
                                 let path = this.$route.query.redirect;
+                                // 登录成功后，将登录的用户信息保存在store中，同时跳转到Home页面
                                 this.$router.replace((path == '/' || path == undefined) ? '/home' : path);
                             }else{
                                 this.vcUrl = '/verifyCode?time='+new Date();

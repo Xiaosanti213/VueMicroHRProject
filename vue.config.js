@@ -1,9 +1,11 @@
 let proxyObj = {};
 const CompressionPlugin = require("compression-webpack-plugin");
+// websocket 请求转发
 proxyObj['/ws'] = {
     ws: true,
     target: "ws://localhost:8081"
 };
+// http请求转发
 proxyObj['/'] = {
     ws: false,
     target: 'http://localhost:8081',
